@@ -14,7 +14,31 @@ public class Peek {
 	private final Square[][] piece;
 	private final Position position;
 	private final Rectangle bounds;
-
+	final static double hexR = 21.0;
+	final static double hexH = Math.sqrt(3.0)*hexR/2.0;	
+	
+	public static int hexX (double x)
+	{
+		return (int) Math.round(3.0/2.0 * x * hexR);
+	}
+	public static int hexY (double x, double y, int c)
+	{
+		//in the middle
+		
+			if (c % 2 == 0)
+			{
+				return (int) Math.round((2.0*y) * hexH + (x % 2) * hexH + hexH);
+			}
+			else
+			{
+				return (int) Math.round((2.0*y) * hexH + ((x+1) % 2) * hexH);
+				
+			}
+		
+		
+			
+	}
+	
 	public Peek(Square[][] piece, Position position, Rectangle bounds) {
 		this.piece = piece;
 		this.position = position;
@@ -45,33 +69,33 @@ public class Peek {
 	private void diggerPosition(PeekView peekView) {
 		int x = position.getLongitude() - bounds.getX1();
 		int y = position.getLatitude() - bounds.getY1();
-		peekView.drawDigger(x,y);
+		peekView.drawDigger(hexX(x),hexY(x, y, bounds.getX1()));
 	}
 
 	private void drawSquare(int x, int y, PeekView peekView) {
 		Square thisSquare = piece[y][x];
 		String srep = thisSquare.getStringRepresentation();
 		if(srep.equals(Square.wall().getStringRepresentation()))  {
-			drawWall(x,y, peekView);
+			drawWall(hexX(x),hexY(x, y, bounds.getX1()), peekView);
 		}
 		else if (srep.equals("b")) {
-			peekView.drawBank(x, y);
+			peekView.drawBank(hexX(x),hexY(x, y, bounds.getX1()));
 		}
 		else if (Character.isDigit(srep.charAt(0))) {
 			char ch = srep.charAt(0);
-			drawGold(x, y, ch-'0', peekView);
+			drawGold(hexX(x),hexY(x, y, bounds.getX1()), ch-'0', peekView);
 		}
 		else {
-			peekView.drawEmpty(x,y);
+			peekView.drawEmpty(hexX(x),hexY(x, y, bounds.getX1()));
 		}
 		// orkade inte funktionalisera
 		if(!thisSquare.hasBeenViewed().isSome()) {
-		    peekView.drawShadow(x,y);
+		    peekView.drawShadow(hexX(x),hexY(x, y, bounds.getX1()));
 		}
 	}
 
 	private void drawGold(int x, int y, int i, PeekView peekView) {
-		peekView.drawGold(x, y, i);
+		peekView.drawGold(hexX(x),hexY(x, y, bounds.getX1()), i);
 	}
 
 

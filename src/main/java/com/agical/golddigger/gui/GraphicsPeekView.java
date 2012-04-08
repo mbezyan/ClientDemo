@@ -16,21 +16,27 @@ public class GraphicsPeekView implements PeekView {
 	}
 	private static Image hexImage1 = loadImage("hexagon1.png");
 	private static Image hexImage2 = loadImage("hexagon2.png");
-	final static double hexR = 21.0;
+	/*final static double hexR = 21.0;
 	final static double hexH = Math.sqrt(3.0)*hexR/2.0;	
-	int a;
-	int b;
 	
-	
-	public static double hexX (double x, double a)
+	public static int hexX (double x)
 	{
-		return a + 3.0/2.0 * x * hexR;
+		return (int) Math.round(3.0/2.0 * x * hexR);
 	}
-	public static double hexY (double x, double y, double b)
+	public static int hexY (double x, double y, int c)
 	{
-		return b + (2.0*y) * hexH + (x % 2) * hexH;
 		
-	}
+		if (c % 2 == 0)
+		{
+			return (int) Math.round((2.0*y) * hexH + (x % 2) * hexH + hexH);
+			
+		}
+		else
+		{
+			return (int) Math.round((2.0*y) * hexH + (x % 2) * hexH);
+			
+		}
+	}*/
 	
 	
 	
@@ -134,8 +140,8 @@ public class GraphicsPeekView implements PeekView {
 	}
 
 	private boolean drawImage(int x, int y, Image image) {
-	//return graphics.drawImage(image, x*32, y*32, imageObserver);
-		return graphics.drawImage(image, (int) hexX(x, 0.0), (int) hexY(x, y, 0.0), imageObserver);//(int) hexX(x, 0.0)*32, (int) hexY(x, y, 0.0)*32, imageObserver);
+	return graphics.drawImage(image, x, y, imageObserver);
+	//	return graphics.drawImage(image, (int) hexX(x, 0.0), (int) hexY(x, y, 0.0), imageObserver);//(int) hexX(x, 0.0)*32, (int) hexY(x, y, 0.0)*32, imageObserver);
 	}
 
 	@Override

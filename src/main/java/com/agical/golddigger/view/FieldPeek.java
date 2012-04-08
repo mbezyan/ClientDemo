@@ -62,7 +62,7 @@ public class FieldPeek {
 
 	private int adjustMinimum(int min, int max, int desiredSize) {
 		int deltaX = max - min;
-		if (deltaX < desiredSize) min = Math.max(min -= (desiredSize-deltaX), 0);
+		if (deltaX < desiredSize) min = Math.max(min - (desiredSize-deltaX), 0);
 		return min;
 	}
 
