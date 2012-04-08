@@ -23,7 +23,6 @@ public class Peek {
 	}
 	public static int hexY (double x, double y, int c)
 	{
-		//in the middle
 		
 			if (c % 2 == 0)
 			{

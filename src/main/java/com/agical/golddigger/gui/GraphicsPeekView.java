@@ -16,28 +16,6 @@ public class GraphicsPeekView implements PeekView {
 	}
 	private static Image hexImage1 = loadImage("hexagon1.png");
 	private static Image hexImage2 = loadImage("hexagon2.png");
-	/*final static double hexR = 21.0;
-	final static double hexH = Math.sqrt(3.0)*hexR/2.0;	
-	
-	public static int hexX (double x)
-	{
-		return (int) Math.round(3.0/2.0 * x * hexR);
-	}
-	public static int hexY (double x, double y, int c)
-	{
-		
-		if (c % 2 == 0)
-		{
-			return (int) Math.round((2.0*y) * hexH + (x % 2) * hexH + hexH);
-			
-		}
-		else
-		{
-			return (int) Math.round((2.0*y) * hexH + (x % 2) * hexH);
-			
-		}
-	}*/
-	
 	
 	
 	

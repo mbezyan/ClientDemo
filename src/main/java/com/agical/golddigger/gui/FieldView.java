@@ -40,7 +40,7 @@ public class FieldView extends JPanel {
 	}
 
 	private FieldPeek createFieldPeek(Digger digger) {
-		return new FieldPeek(digger, Math.round(getWidth()/32F), Math.round(getHeight()/32F));
+		return new FieldPeek(digger, Math.round(getWidth()/(33.5F)), Math.round(getHeight()/38.5F));
 	}
 	
 	
