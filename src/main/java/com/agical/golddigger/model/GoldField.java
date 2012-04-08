@@ -44,6 +44,18 @@ public class GoldField {
 
     public String getDiggerView(Digger digger) {
         String result = "";
+        /*for(int deltaLat=-1;deltaLat<2;deltaLat++) {
+            for(int deltaLong=-1;deltaLong<2;deltaLong++) {
+                Position position = digger.getPosition();
+                Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
+                square.viewed();
+                result += square;
+            }
+            result += '\n';
+        }*/
+        
+        
+        
         for(int deltaLat=-1;deltaLat<2;deltaLat++) {
             for(int deltaLong=-1;deltaLong<2;deltaLong++) {
                 Position position = digger.getPosition();
@@ -52,7 +64,9 @@ public class GoldField {
                 result += square;
             }
             result += '\n';
+        
         }
+        
         return result;
     }
 
