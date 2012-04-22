@@ -49,16 +49,6 @@ public class GoldField {
         
         result = constructDiggerView(digger, length);
         
-        /*for(int deltaLat=-1;deltaLat<2;deltaLat++) {
-            for(int deltaLong=-1;deltaLong<2;deltaLong++) {
-                Position position = digger.getPosition();
-                Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
-                square.viewed();
-                result += square;
-            }
-            result += '\n';
-        }*/
-        
         return result;
     }
     
@@ -76,7 +66,16 @@ public class GoldField {
     	// wall on one side
     	
     	// construct view for square tiles
-    	    	    	
+    	for(int deltaLat=length*(-1);deltaLat<length+1;deltaLat++) {
+    		for(int deltaLong=length*(-1);deltaLong<length+1;deltaLong++) {
+    			Position position = digger.getPosition();
+    			Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
+    			square.viewed();
+    			view += square;
+    		}
+    		view += '\n';
+    	} 	    	
+    	
     	// construct view for hexagon tiles
     	
     	// construct view for triangle tiles
