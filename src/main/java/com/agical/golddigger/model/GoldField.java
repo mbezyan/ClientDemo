@@ -44,7 +44,12 @@ public class GoldField {
 
     public String getDiggerView(Digger digger) {
         String result = "";
-        for(int deltaLat=-1;deltaLat<2;deltaLat++) {
+        
+        Integer length = 1;
+        
+        result = constructDiggerView(digger, length);
+        
+        /*for(int deltaLat=-1;deltaLat<2;deltaLat++) {
             for(int deltaLong=-1;deltaLong<2;deltaLong++) {
                 Position position = digger.getPosition();
                 Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
@@ -52,10 +57,35 @@ public class GoldField {
                 result += square;
             }
             result += '\n';
-        }
+        }*/
+        
         return result;
     }
-
+    
+    // **MMB
+    // a new function that returns the view as a String called by getDiggerView
+    // the length of the line-of-sight can be passed to this function
+    // along with the digger object
+    
+    public String constructDiggerView(Digger digger, Integer length) {
+    	
+    	String view = "";
+    	
+    	// for all the different types of tiles, the digger should ideally 
+    	// be in the centre. This cannot happen if the digger is close to a
+    	// wall on one side
+    	
+    	// construct view for square tiles
+    	    	    	
+    	// construct view for hexagon tiles
+    	
+    	// construct view for triangle tiles
+    	    	
+    	
+    	return view;
+    	
+    }
+    
     public String getField(Digger digger) {
         String result = "";
         for(int lat=1;lat<=getMaxLatitude();lat++) {
