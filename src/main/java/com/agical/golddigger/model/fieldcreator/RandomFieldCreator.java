@@ -30,10 +30,14 @@ public class RandomFieldCreator extends FieldCreator {
                 int gold = (int) Math.min((Math.random()*9)+1, goldLeft);
                 goldLeft = goldLeft-gold;
                 nrOfGoldSquares++;
-                available.add(new GoldSquare(gold));
+                GoldSquare newGoldSquare = new GoldSquare(gold);
+                newGoldSquare.setCost((int)(Math.random()*10));
+                available.add(newGoldSquare);
             }
             for(int i = 0; i < (maxLatitude2*maxLongitude2)-nrOfGoldSquares-nrOfWalls2-oneForTheBank; i++) {
-                available.add(Square.empty());
+            	Square emptySquare = Square.empty();
+            	emptySquare.setCost((int)(Math.random()*10));
+                available.add(emptySquare);
             }
             for(int i = 0; i < nrOfWalls2; i++) {
                 available.add(new WallSquare());

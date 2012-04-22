@@ -30,6 +30,7 @@ public class TestMidFieldWalls {
 			}});
         digger = diggers.createDigger("Diggers name", "secretName");
         diggers.newGame(digger);
+
         assertEquals( "www\nwbw\nw1.\n", digger.getView());
     }
     

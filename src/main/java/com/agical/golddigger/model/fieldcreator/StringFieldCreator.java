@@ -18,15 +18,27 @@ public class StringFieldCreator extends FieldCreator {
 
     private Square[][] getSquares() {
         if(squares!=null) return squares;
-        String[] rows = result.split("\n");
+        //
+        String[] rows = (result.split("!")) [0].split("\n");
+        //The travel costs grid after an !\n in the .field files
+        String[] costRows = (result.split("!\n")) [1].split("\n");
+        
         squares = new Square[rows.length][];
         for (int rowCount = 0; rowCount<rows.length; rowCount++) {
             String charRow = rows[rowCount];
+            String charCostRow = costRows[rowCount];
+            
             Square[] squareRow = new Square[charRow.length()];
             squares[rowCount] = squareRow;
             for (int i = 0; i < charRow.length(); i++) {
                 char squareChar = charRow.charAt(i);
-                squareRow[i] = Square.createFromChar(squareChar); 
+                squareRow[i] = Square.createFromChar(squareChar);
+                
+                char costChar = charCostRow.charAt(i);
+                if (costChar !='w'){
+                	int costInt = Character.getNumericValue(costChar);
+                	squareRow[i].setCost(costInt);
+                }
             }
         }
         return squares;

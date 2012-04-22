@@ -57,7 +57,7 @@ public class TestLogAndRestore {
                 + (currentTime + 6) + " digger/Daniels/drop\n";
         Reader reader = new StringReader(log);
         PathExecutor executor = new PathExecutor(diggers, new VoidWriter());
-        executor.restoreFromLogWithDelay(reader, 1000);
+        executor.restoreFromLogWithDelay(reader, 10000);
         assertEquals(1, diggers.getDiggers().size());
         Digger digger = diggers.getDiggers().get(0);
         assertEquals(1, digger.getGoldInTheBank());
@@ -75,7 +75,7 @@ public class TestLogAndRestore {
             public void run() {
                 try {
                     PathExecutor executor = new PathExecutor(diggers, new VoidWriter());
-                    executor.restoreFromLogWithDelay(reader, 1000);
+                    executor.restoreFromLogWithDelay(reader, 10000);
                 } catch (Exception e) {
                     exceptions.add(e);
                 }

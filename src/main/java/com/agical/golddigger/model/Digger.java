@@ -22,6 +22,7 @@ public class Digger {
     private final String name;
     private final String secretName;
     private Writer log;
+    long delayFactor = 1000; //measured in milliseconds
     private Fn2<Digger, GolddiggerNotifier, Unit> updateListeners = new Fn2<Digger,GolddiggerNotifier, Unit>() {
         public Unit apply(Digger digger, GolddiggerNotifier notifier) {
             notifier.updateListeners(digger);
@@ -132,8 +133,17 @@ public class Digger {
     public synchronized Option<Position> move(Fn1<Position,Position> move) {
         Position newPosition = move.apply(getPosition());
         if(goldField.isTreadable(newPosition)) {
+        	   	
             setPosition(newPosition);
             update();
+            
+			try {
+				Thread.sleep((long) (delayFactor*this.goldField.getSquare(position).getCost()));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
             return Option.some(getPosition());
         } else {
             return Option.<Position>none();
