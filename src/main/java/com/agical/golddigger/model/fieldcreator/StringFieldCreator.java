@@ -18,26 +18,46 @@ public class StringFieldCreator extends FieldCreator {
 
     private Square[][] getSquares() {
         if(squares!=null) return squares;
-        //
-        String[] rows = (result.split("!")) [0].split("\n");
-        //The travel costs grid after an !\n in the .field files
-        String[] costRows = (result.split("!\n")) [1].split("\n");
         
-        squares = new Square[rows.length][];
-        for (int rowCount = 0; rowCount<rows.length; rowCount++) {
-            String charRow = rows[rowCount];
-            String charCostRow = costRows[rowCount];
-            
-            Square[] squareRow = new Square[charRow.length()];
-            squares[rowCount] = squareRow;
-            for (int i = 0; i < charRow.length(); i++) {
-                char squareChar = charRow.charAt(i);
-                squareRow[i] = Square.createFromChar(squareChar);
-                
-                char costChar = charCostRow.charAt(i);
-                if (costChar !='w'){
-                	int costInt = Character.getNumericValue(costChar);
-                	squareRow[i].setCost(costInt);
+        //If field file contains information about movement cost, set them as well
+        //Otherwise, read file normally (movement costs default to 0)
+        if(result.contains("!"))
+        {
+	        //
+	        String[] rows = (result.split("!")) [0].split("\n");
+	        //The travel costs grid after an !\n in the .field files
+	        String[] costRows = (result.split("!\n")) [1].split("\n");
+	        
+	        squares = new Square[rows.length][];
+	        for (int rowCount = 0; rowCount<rows.length; rowCount++) {
+	            String charRow = rows[rowCount];
+	            String charCostRow = costRows[rowCount];
+	            
+	            Square[] squareRow = new Square[charRow.length()];
+	            squares[rowCount] = squareRow;
+	            for (int i = 0; i < charRow.length(); i++) {
+	                char squareChar = charRow.charAt(i);
+	                squareRow[i] = Square.createFromChar(squareChar);
+	                
+	                char costChar = charCostRow.charAt(i);
+	                if (costChar !='w'){
+	                	int costInt = Character.getNumericValue(costChar);
+	                	squareRow[i].setCost(costInt);
+	                }
+	            }
+	        }
+        }
+        else
+        {
+        	String[] rows = result.split("\n");
+            squares = new Square[rows.length][];
+            for (int rowCount = 0; rowCount<rows.length; rowCount++) {
+                String charRow = rows[rowCount];
+                Square[] squareRow = new Square[charRow.length()];
+                squares[rowCount] = squareRow;
+                for (int i = 0; i < charRow.length(); i++) {
+                    char squareChar = charRow.charAt(i);
+                    squareRow[i] = Square.createFromChar(squareChar); 
                 }
             }
         }
