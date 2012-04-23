@@ -8,10 +8,10 @@ import com.agical.jambda.Functions.Fn1;
 import com.agical.jambda.Functions.Fn2;
 
 public class Position {
-    private static final int[] _SOUTH = new int[]{1,0,0,1};
-    private static final int[] _NORTH = new int[]{-1,0,1,1}; //[lat,long]
-    private static final int[] _EAST = new int[]{0,1};
-    private static final int[] _WEST = new int[]{0,-1};
+	private static final int[] _SOUTH = new int[] { 1, 0, 1, 0 };
+	private static final int[] _NORTH = new int[] { -1, 0, -1, 0 }; // [lat,long]
+	private static final int[] _EAST = new int[] { 0, 1, 0, 1 };
+	private static final int[] _WEST = new int[] { 0, -1, 0, -1 };
     
     /*
 	 * For "six sided" tiles, the north-east, south-east ... commands were added
