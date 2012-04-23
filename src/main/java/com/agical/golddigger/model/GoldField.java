@@ -17,6 +17,9 @@ public class GoldField {
 
     private int maxLongitude;
     
+    //Switch for six sided tiles
+    boolean switchSixSided = true;
+    
     public void setGolddiggerNotifier(GolddiggerNotifier golddiggerNotifier) {
         this.golddiggerNotifier = golddiggerNotifier;
     }
@@ -44,7 +47,7 @@ public class GoldField {
 
     public String getDiggerView(Digger digger) {
         String result = "";
-        /*for(int deltaLat=-1;deltaLat<2;deltaLat++) {
+        for(int deltaLat=-1;deltaLat<2;deltaLat++) {
             for(int deltaLong=-1;deltaLong<2;deltaLong++) {
                 Position position = digger.getPosition();
                 Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
@@ -52,11 +55,57 @@ public class GoldField {
                 result += square;
             }
             result += '\n';
-        }*/
+        }
+     
+        if (switchSixSided) {
+			boolean evenColumn = digger.getPosition().getLongitude() % 2 == 0;
+			
+			// if the digger is sitting on an even column or odd column -> the
+			// six surrounding tiles (array entries) will be dependent on the
+			// column. Indexed from zero column...
+			// Six surrounding tiles will chop off corners, see notes and figure
+			// 2.
+			
+			if (evenColumn) {
+				// Chop off the bottom left and right corners
+				// result = result.substring(0, 8) + ' ' + result.substring(9,
+				// 10) + ' ' + '\n';
+				result = result.substring(0, 7) + result.substring(9, 12);
+			} else {
+				// Chop off the top left and right corners
+				// result = ' ' + result.substring(1, 2) + ' ' +
+				// result.substring(3, 12) + ' ' + '\n';
+				result = result.substring(1, 2) + result.substring(3, 12);
+			}
+			
+			// format into the pattern:
+//			      x   
+//			   x     x
+//			      c   
+//			   x     x
+//			      x   
+//			where x are adjacent tiles and c is where the digger is at the moment
+			
+			result = result.replaceAll("\n", "");
+			if (evenColumn) {
+				result = "   " + result.charAt(1) + "   " + '\n'
+						+ result.charAt(0)	+ "     " + result.charAt(2) + '\n'
+						+ "   " + result.charAt(4) + "   " + '\n'
+						+ result.charAt(3)	+ "     " + result.charAt(5) + '\n'
+						+ "   " + result.charAt(6) + "   " + '\n';
+
+			} else {
+				result = "   " + result.charAt(0) + "   " + '\n' 
+						+ result.charAt(1) + "     " + result.charAt(3) + '\n'
+						+ "   " + result.charAt(2) + "   " + '\n'
+						+ result.charAt(4) + "     " + result.charAt(6) + '\n'
+						+ "   " + result.charAt(5) + "   " + '\n';
+			}
+		}
         
         
         
-        for(int deltaLat=-1;deltaLat<2;deltaLat++) {
+     /*   for(int deltaLat=-1;deltaLat<2;deltaLat++) {
             for(int deltaLong=-1;deltaLong<2;deltaLong++) {
                 Position position = digger.getPosition();
                 Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
@@ -66,7 +115,7 @@ public class GoldField {
             result += '\n';
         
         }
-        
+      */  
         return result;
     }
 
