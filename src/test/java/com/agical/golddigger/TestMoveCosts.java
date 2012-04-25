@@ -23,14 +23,18 @@ public class TestMoveCosts {
         long startTime = System.currentTimeMillis();
 		digger.move(Position.EAST);
 		assertEquals(startTime + 1000, System.currentTimeMillis(), 10);
+		startTime = System.currentTimeMillis();
 		digger.move(Position.SOUTH);
-		assertEquals(startTime + 3000, System.currentTimeMillis(), 10);
+		assertEquals(startTime + 2000, System.currentTimeMillis(), 10);
+		startTime = System.currentTimeMillis();
 		digger.move(Position.WEST);
-		assertEquals(startTime + 6000, System.currentTimeMillis(), 10);
+		assertEquals(startTime + 3000, System.currentTimeMillis(), 10);
+		startTime = System.currentTimeMillis();
 		digger.move(Position.SOUTH);
-		assertEquals(startTime + 10000, System.currentTimeMillis(), 10);
+		assertEquals(startTime + 4000, System.currentTimeMillis(), 10);
+		startTime = System.currentTimeMillis();
 		digger.move(Position.EAST);
-		assertEquals(startTime + 15000, System.currentTimeMillis(), 10);
+		assertEquals(startTime + 5000, System.currentTimeMillis(), 10);
 	}
 
 }

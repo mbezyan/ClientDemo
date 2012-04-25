@@ -16,13 +16,9 @@ public class StringFieldCreator extends FieldCreator {
         return getSquares();
     }
 
-    private Square[][] getSquares() {
-        if(squares!=null) return squares;
-        
-        //If field file contains information about movement cost, set them as well
-        //Otherwise, read file normally (movement costs default to 0)
-        if(result.contains("!"))
-        {
+    private void getSquaresWithCosts ()
+    {
+
 	        //
 	        String[] rows = (result.split("!")) [0].split("\n");
 	        //The travel costs grid after an !\n in the .field files
@@ -46,6 +42,21 @@ public class StringFieldCreator extends FieldCreator {
 	                }
 	            }
 	        }
+        
+     
+    	
+    }
+    
+    private Square[][] getSquares() {
+        if(squares!=null) return squares;
+        
+
+        
+        //If field file contains information about movement cost, set them as well
+        //Otherwise, read file normally (movement costs default to 0)
+        if(result.contains("!"))
+        {
+        	getSquaresWithCosts();
         }
         else
         {
@@ -61,6 +72,8 @@ public class StringFieldCreator extends FieldCreator {
                 }
             }
         }
+        
+       
         return squares;
     }
     
