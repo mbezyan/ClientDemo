@@ -59,6 +59,27 @@ public class GoldField {
     
     public String constructDiggerView(Digger digger, Integer length) {
     	
+    	// create an empty array x with the same dimensions as the squares array
+    	// make the cell where the digger is located "true" in array x
+    	
+    	// while (k < line_of_sight_length){
+    			
+    			// go through all the cells in array x
+    			// for (int i = -(m); i < (m + 1); i++){
+    			//		for (int j = -(m); j < (m + 1); j++){
+    			//			if (x[diggerLat + i][diggerLong + j] == true){
+    			//				Position position = new Position(i, j);	
+    			// 				call adjacency function, give it array x
+    			
+    			// increment k
+    			// change the original cells that was "true" to "checked"
+    	
+    	// }
+    	
+    	// go through array x 
+    	// print every cell in squares where the corresponding cell in x is true or checked
+    	
+    	
     	String view = "";
     	
     	// for all the different types of tiles, the digger should ideally 
@@ -67,16 +88,25 @@ public class GoldField {
     	
     	// construct view for square tiles
     	for(int deltaLat=length*(-1);deltaLat<length+1;deltaLat++) {
-    		for(int deltaLong=length*(-1);deltaLong<length+1;deltaLong++) {
+    		for(int deltaLong=length*(-1);deltaLong<length+1;deltaLong++) {	
     			Position position = digger.getPosition();
     			Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
     			square.viewed();
     			view += square;
     		}
+    	}
     		view += '\n';
-    	} 	    	
+    	    	
     	
     	// construct view for hexagon tiles
+    	
+    		int arraySizeLength = squares.length;
+        	int arraySizeWidth = squares[0].length;
+    		String[][] visibleTiles;
+        	visibleTiles = new String[arraySizeLength][arraySizeWidth];
+    		
+    		
+    		
     	
     	// construct view for triangle tiles
     	    	
@@ -124,6 +154,20 @@ public class GoldField {
             }
         }
         return false;
+    }
+    
+    //Calculates view of surrounding adjacent hexagon tiles of length 1
+    public String [][] calculateAdjacency(Position position, String[][] sightedArray){
+    	int deltaLat;
+    	int deltaLong;
+
+    	for(deltaLat = -1; deltaLat <= 1; deltaLat++) {
+        	for(deltaLong = -1; deltaLong <= 1; deltaLong++) {
+        		if (!(deltaLat == -1 && deltaLong == -1) || !(deltaLat == -1 && deltaLong == 1)){
+        			sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "True";
+        		}
+        	}
+    	}
     }
 
 }
