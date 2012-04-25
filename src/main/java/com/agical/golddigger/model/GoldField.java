@@ -103,9 +103,38 @@ public class GoldField {
     		int arraySizeLength = squares.length;
         	int arraySizeWidth = squares[0].length;
     		String[][] visibleTiles;
+    		
         	visibleTiles = new String[arraySizeLength][arraySizeWidth];
-    		
-    		
+        	Position position = digger.getPosition();
+        	
+        	visibleTiles[position.getLatitude()][position.getLongitude()] = "True";
+        	calculateAdjacencyHex(position, visibleTiles);
+        	visibleTiles[position.getLatitude()][position.getLongitude()] = "Checked";
+        	
+        	int k = 0;
+        	while (k < length){
+        		for (int i = -(k); i < (k + 1); i++){
+        			for (int j = -(k); j < (k + 1); j++){
+        				if (visibleTiles[position.getLatitude() + i][position.getLongitude() + j] == "True"){
+        					position = new Position(i, j);
+        					calculateAdjacencyHex(position, visibleTiles);
+        					visibleTiles[position.getLatitude() + i][position.getLongitude() + j] = "Checked";
+        				}
+        			}
+        			
+        		}
+        		k++;
+        	}
+        	
+        	for (int i = 0; i < visibleTiles.length; i++){
+        		for (int j = 0; j < visibleTiles[0].length; j++){
+        			if (visibleTiles[i][j] == "True" || visibleTiles[i][j] == "Checked"){
+        				Square square = squares[i][j];
+            			square.viewed();
+            			view += square;
+        			}
+        		}
+        	}
     		
     	
     	// construct view for triangle tiles
@@ -157,7 +186,7 @@ public class GoldField {
     }
     
     //Calculates view of surrounding adjacent hexagon tiles of length 1
-    public String [][] calculateAdjacency(Position position, String[][] sightedArray){
+    public String [][] calculateAdjacencyHex(Position position, String[][] sightedArray){
     	int deltaLat;
     	int deltaLong;
 
