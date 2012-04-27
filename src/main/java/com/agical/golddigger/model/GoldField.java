@@ -17,6 +17,12 @@ public class GoldField {
 
     private int maxLongitude;
     
+    // MMB
+    // Tile type enum
+    private enum TileTypes {Square, Hexagon, Triangle}
+    
+    private TileTypes TileType = TileTypes.Hexagon; 
+    
     public void setGolddiggerNotifier(GolddiggerNotifier golddiggerNotifier) {
         this.golddiggerNotifier = golddiggerNotifier;
     }
@@ -43,11 +49,12 @@ public class GoldField {
     }
 
     public String getDiggerView(Digger digger) {
-        String result = "";
         
-        Integer length = 1;
+    	String result = "";
         
-        result = constructDiggerView(digger, length);
+        Integer line_of_sight_length = 1;
+        
+        result = constructDiggerView(digger, line_of_sight_length);
         
         return result;
     }
@@ -59,85 +66,66 @@ public class GoldField {
     
     public String constructDiggerView(Digger digger, Integer length) {
     	
-    	// create an empty array x with the same dimensions as the squares array
-    	// make the cell where the digger is located "true" in array x
-    	
-    	// while (k < line_of_sight_length){
-    			
-    			// go through all the cells in array x
-    			// for (int i = -(m); i < (m + 1); i++){
-    			//		for (int j = -(m); j < (m + 1); j++){
-    			//			if (x[diggerLat + i][diggerLong + j] == true){
-    			//				Position position = new Position(i, j);	
-    			// 				call adjacency function, give it array x
-    			
-    			// increment k
-    			// change the original cells that was "true" to "checked"
-    	
-    	// }
-    	
-    	// go through array x 
-    	// print every cell in squares where the corresponding cell in x is true or checked
+    
     	
     	
     	String view = "";
     	
-    	// for all the different types of tiles, the digger should ideally 
-    	// be in the centre. This cannot happen if the digger is close to a
-    	// wall on one side
     	
-    	// construct view for square tiles
-    	for(int deltaLat=length*(-1);deltaLat<length+1;deltaLat++) {
-    		for(int deltaLong=length*(-1);deltaLong<length+1;deltaLong++) {	
-    			Position position = digger.getPosition();
-    			Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
-    			square.viewed();
-    			view += square;
+    	
+		int arraySizeLength = squares.length;
+    	int arraySizeWidth = squares[0].length;
+		String[][] visibleTiles;
+		
+    	visibleTiles = new String[arraySizeLength][arraySizeWidth];
+    	Position position = digger.getPosition();
+    	int digger_lat = position.getLatitude();
+    	int digger_long = position.getLongitude();
+    	visibleTiles[position.getLatitude()][position.getLongitude()] = "True";
+    	
+    	int k = 0;
+    	while (k < length){
+    		for (int i = -(k); i < (k + 1); i++){
+    			for (int j = -(k); j < (k + 1); j++){
+    				
+    				position = new Position(digger_lat + i, digger_long + j);
+    				
+    				if ((position.getLatitude() >= 0) && (position.getLatitude() < visibleTiles.length)) {
+            			
+           			 	if (position.getLongitude() >= 0 && (position.getLongitude() < visibleTiles[0].length)) {
+	        				if (visibleTiles[position.getLatitude()][position.getLongitude()] == "True"){
+	        					
+
+	        					markAdjacentTiles(position, visibleTiles);
+
+	        					visibleTiles[position.getLatitude()][position.getLongitude()] = "Checked";
+	        					
+	        				}
+           			 	}
+    				}
+    			}
+    			
     		}
+    		k++;
     	}
+    	
+    	for (int i = 0; i < visibleTiles.length; i++){
+    		for (int j = 0; j < visibleTiles[0].length; j++){
+    			
+    			if (visibleTiles[i][j] == "True" || visibleTiles[i][j] == "Checked"){
+    				Square square = squares[i][j];
+        			square.viewed();
+        			view += square;
+    			} else if (visibleTiles[i][j] == "Blank") {
+    				
+        			view += " ";
+    			}
+    		}
     		view += '\n';
-    	    	
-    	
-    	// construct view for hexagon tiles
-    	
-    		int arraySizeLength = squares.length;
-        	int arraySizeWidth = squares[0].length;
-    		String[][] visibleTiles;
-    		
-        	visibleTiles = new String[arraySizeLength][arraySizeWidth];
-        	Position position = digger.getPosition();
-        	
-        	visibleTiles[position.getLatitude()][position.getLongitude()] = "True";
-        	calculateAdjacencyHex(position, visibleTiles);
-        	visibleTiles[position.getLatitude()][position.getLongitude()] = "Checked";
-        	
-        	int k = 0;
-        	while (k < length){
-        		for (int i = -(k); i < (k + 1); i++){
-        			for (int j = -(k); j < (k + 1); j++){
-        				if (visibleTiles[position.getLatitude() + i][position.getLongitude() + j] == "True"){
-        					position = new Position(i, j);
-        					calculateAdjacencyHex(position, visibleTiles);
-        					visibleTiles[position.getLatitude() + i][position.getLongitude() + j] = "Checked";
-        				}
-        			}
-        			
-        		}
-        		k++;
-        	}
-        	
-        	for (int i = 0; i < visibleTiles.length; i++){
-        		for (int j = 0; j < visibleTiles[0].length; j++){
-        			if (visibleTiles[i][j] == "True" || visibleTiles[i][j] == "Checked"){
-        				Square square = squares[i][j];
-            			square.viewed();
-            			view += square;
-        			}
-        		}
-        	}
+    	}
     		
     	
-    	// construct view for triangle tiles
+    	
     	    	
     	
     	return view;
@@ -186,15 +174,48 @@ public class GoldField {
     }
     
     //Calculates view of surrounding adjacent hexagon tiles of length 1
-    public String [][] calculateAdjacencyHex(Position position, String[][] sightedArray){
+    public void markAdjacentTiles(Position position, String[][] sightedArray){
     	int deltaLat;
     	int deltaLong;
 
     	for(deltaLat = -1; deltaLat <= 1; deltaLat++) {
         	for(deltaLong = -1; deltaLong <= 1; deltaLong++) {
-        		if (!(deltaLat == -1 && deltaLong == -1) || !(deltaLat == -1 && deltaLong == 1)){
-        			sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "True";
+        		if (position.getLatitude() + deltaLat >= 0 && position.getLatitude() + deltaLat < sightedArray.length) {
+        			
+        			 if (position.getLongitude() + deltaLong >= 0 && position.getLongitude() + deltaLong < sightedArray[0].length) {
+        		
+		        		if (TileType == TileTypes.Hexagon) {
+		        			if (!(deltaLat == -1 && deltaLong == -1) && !(deltaLat == -1 && deltaLong == 1)){
+		        				sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "True";
+		        			} else {
+		        				sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "Blank";
+		        				
+		        			}
+		        		} else if (TileType == TileTypes.Triangle) {
+		        			if ((position.getLongitude() % 2) == 1) {
+		        				if ((!(deltaLat == 1 && deltaLong == 1)) || (!(deltaLat == 1 && deltaLong == -1))) {
+		        					sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "True";
+		        				}
+		        			} else if ((position.getLongitude() % 2) == 0) {
+		        				if ((!(deltaLat == -1 && deltaLong == -1)) || (!(deltaLat == -1 && deltaLong == 1))) {
+		        					sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "True";
+		        				}
+		        				
+		        			}
+		        			
+		        			
+		        		} else {
+
+		        			
+		        			sightedArray[position.getLatitude() + deltaLat][position.getLongitude() + deltaLong] = "True";
+
+		        			
+		        		}
+        			 }
+        			 
         		}
+        		
+        			
         	}
     	}
     }
