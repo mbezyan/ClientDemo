@@ -83,8 +83,6 @@ public class PathExecutor {
                     diggers.newGame(digger);
                 }
             }
-           
-            // modified the executor to be able to recognise the directors.
             if (action.equals("move")) {
                 String direction = splitPath[3].toLowerCase();
                 String ok = "OK\n";

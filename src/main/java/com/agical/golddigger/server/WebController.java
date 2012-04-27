@@ -76,7 +76,6 @@ public class WebController {
     public WebResponse moveEast() {
         return call("http://localhost:" + port + "/golddigger/digger/" + secretName + "/move/east", serverSleep);
     }
-    
     public WebResponse moveNorth_East() {
         return call("http://localhost:" + port + "/golddigger/digger/" + secretName + "/move/north_east", serverSleep);
     }
@@ -92,6 +91,5 @@ public class WebController {
     public WebResponse moveSouth_West() {
         return call("http://localhost:" + port + "/golddigger/digger/" + secretName + "/move/south_west", serverSleep);
     }
-
 
 }

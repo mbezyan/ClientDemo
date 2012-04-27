@@ -17,8 +17,7 @@ public class GoldField {
 
     private int maxLongitude;
     
-    //Switch for six sided tiles
-    boolean switchSixSided = true;
+    private int numberOfSides = 4;
     
     public void setGolddiggerNotifier(GolddiggerNotifier golddiggerNotifier) {
         this.golddiggerNotifier = golddiggerNotifier;
@@ -46,6 +45,7 @@ public class GoldField {
     }
 
     public String getDiggerView(Digger digger) {
+//------------------4 Sided---------------------------------------------
         String result = "";
         for(int deltaLat=-1;deltaLat<2;deltaLat++) {
             for(int deltaLong=-1;deltaLong<2;deltaLong++) {
@@ -56,70 +56,52 @@ public class GoldField {
             }
             result += '\n';
         }
-     
-        if (switchSixSided) {
-			boolean evenColumn = digger.getPosition().getLongitude() % 2 == 0;
-			
-			// if the digger is sitting on an even column or odd column -> the
-			// six surrounding tiles (array entries) will be dependent on the
-			// column. Indexed from zero column...
-			// Six surrounding tiles will chop off corners, see notes and figure
-			// 2.
-			
-			if (evenColumn) {
-				// Chop off the bottom left and right corners
-				// result = result.substring(0, 8) + ' ' + result.substring(9,
-				// 10) + ' ' + '\n';
-				result = result.substring(0, 7) + result.substring(9, 12);
-			} else {
-				// Chop off the top left and right corners
-				// result = ' ' + result.substring(1, 2) + ' ' +
-				// result.substring(3, 12) + ' ' + '\n';
-				result = result.substring(1, 2) + result.substring(3, 12);
-			}
-			
-			// format into the pattern:
-//			      x   
-//			   x     x
-//			      c   
-//			   x     x
-//			      x   
-//			where x are adjacent tiles and c is where the digger is at the moment
-			
-			result = result.replaceAll("\n", "");
-			if (evenColumn) {
-				result = "   " + result.charAt(1) + "   " + '\n'
-						+ result.charAt(0)	+ "     " + result.charAt(2) + '\n'
-						+ "   " + result.charAt(4) + "   " + '\n'
-						+ result.charAt(3)	+ "     " + result.charAt(5) + '\n'
-						+ "   " + result.charAt(6) + "   " + '\n';
-
-			} else {
-				result = "   " + result.charAt(0) + "   " + '\n' 
-						+ result.charAt(1) + "     " + result.charAt(3) + '\n'
-						+ "   " + result.charAt(2) + "   " + '\n'
-						+ result.charAt(4) + "     " + result.charAt(6) + '\n'
-						+ "   " + result.charAt(5) + "   " + '\n';
-			}
-		}
         
-        
-        
-     /*   for(int deltaLat=-1;deltaLat<2;deltaLat++) {
-            for(int deltaLong=-1;deltaLong<2;deltaLong++) {
-                Position position = digger.getPosition();
-                Square square = squares[position.getLatitude()+deltaLat][position.getLongitude()+deltaLong];
-                square.viewed();
-                result += square;
-            }
-            result += '\n';
-        
+//-----------6 Sided---------------------------------------------------
+        if(numberOfSides == 6){
+        	result = getSixSidedView(digger, result);
         }
-      */  
         return result;
     }
 
-    public String getField(Digger digger) {
+    private String getSixSidedView(Digger digger,String result) {
+		boolean isEvenColumn = digger.getPosition().getLongitude() % 2 == 0;
+		//Chops off the bottom left and right tiles as they are not seen by
+		//6 sided view.
+		if(isEvenColumn){
+			result = result.substring(0,7) + result.substring(9,12);
+		}
+		//Chops off the top left and right tiles as they are not seen by
+		//6 sided view.
+		else {
+			result = result.substring(1,2) + result.substring(3,12);
+		}
+		// format into the pattern:
+//	      x   
+//	   x     x
+//	      c   
+//	   x     x
+//	      x   
+//	where x are adjacent tiles and c is where the digger is at the moment
+		result = result.replaceAll("\n", "");
+		if (isEvenColumn) {
+			result = "   " + result.charAt(1) + "   " + '\n'
+					+ result.charAt(0)	+ "     " + result.charAt(2) + '\n'
+					+ "   " + result.charAt(4) + "   " + '\n'
+					+ result.charAt(3)	+ "     " + result.charAt(5) + '\n'
+					+ "   " + result.charAt(6) + "   " + '\n';
+
+		} else {
+			result = "   " + result.charAt(0) + "   " + '\n' 
+					+ result.charAt(1) + "     " + result.charAt(3) + '\n'
+					+ "   " + result.charAt(2) + "   " + '\n'
+					+ result.charAt(4) + "     " + result.charAt(6) + '\n'
+					+ "   " + result.charAt(5) + "   " + '\n';
+		}
+		return result;
+	}
+
+	public String getField(Digger digger) {
         String result = "";
         for(int lat=1;lat<=getMaxLatitude();lat++) {
             for(int lon=1;lon<=getMaxLongitude();lon++) {
@@ -158,6 +140,10 @@ public class GoldField {
             }
         }
         return false;
+    }
+    
+    public void setNumberOfSides(int numberOfSides){
+    	this.numberOfSides = numberOfSides;
     }
 
 }
