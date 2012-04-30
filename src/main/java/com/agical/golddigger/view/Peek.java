@@ -15,6 +15,7 @@ public class Peek {
 	private final Position position;
 	private final Rectangle bounds;
 	final static double hexR = 21.0;
+	private int numberOfSides = 6;
 	final static double hexH = Math.sqrt(3.0)*hexR/2.0;	
 	
 	public static int hexX (double x)
@@ -44,6 +45,13 @@ public class Peek {
 		this.bounds = bounds;
 	}
 	
+	public Peek(Square[][] piece, Position position, Rectangle bounds, int numberOfSides) {
+		this.piece = piece;
+		this.position = position;
+		this.bounds = bounds;
+		this.numberOfSides = numberOfSides;
+	}
+	
 	public Rectangle getBounds() {
 		return bounds;
 	}
@@ -68,33 +76,50 @@ public class Peek {
 	private void diggerPosition(PeekView peekView) {
 		int x = position.getLongitude() - bounds.getX1();
 		int y = position.getLatitude() - bounds.getY1();
-		peekView.drawDigger(hexX(x),hexY(x, y, bounds.getX1()));
+		if(numberOfSides == 6){
+			y = hexY(x,y, bounds.getX1());
+			x = hexX(x);
+			
+		}
+		peekView.drawDigger(x,y);
 	}
 
-	private void drawSquare(int x, int y, PeekView peekView) {
+	private void drawSquare(int newX, int newY, PeekView peekView) {
+		int x = newX;
+		int y = newY;
 		Square thisSquare = piece[y][x];
 		String srep = thisSquare.getStringRepresentation();
+		
+		if(numberOfSides == 6){
+			y = hexY(x,y, bounds.getX1());
+			x = hexX(x);			
+		}
 		if(srep.equals(Square.wall().getStringRepresentation()))  {
-			drawWall(hexX(x),hexY(x, y, bounds.getX1()), peekView);
+			drawWall(x,y, peekView);
 		}
 		else if (srep.equals("b")) {
-			peekView.drawBank(hexX(x),hexY(x, y, bounds.getX1()));
+			peekView.drawBank(x,y);
 		}
 		else if (Character.isDigit(srep.charAt(0))) {
 			char ch = srep.charAt(0);
-			drawGold(hexX(x),hexY(x, y, bounds.getX1()), ch-'0', peekView);
+			drawGold(x,y, ch-'0', peekView);
 		}
 		else {
-			peekView.drawEmpty(hexX(x),hexY(x, y, bounds.getX1()));
+			peekView.drawEmpty(x,y);
 		}
 		// orkade inte funktionalisera
 		if(!thisSquare.hasBeenViewed().isSome()) {
-		    peekView.drawShadow(hexX(x),hexY(x, y, bounds.getX1()));
+		    peekView.drawShadow(x,y);
 		}
 	}
 
 	private void drawGold(int x, int y, int i, PeekView peekView) {
-		peekView.drawGold(hexX(x),hexY(x, y, bounds.getX1()), i);
+		if(numberOfSides == 6){
+			y = hexY(x,y, bounds.getX1());
+			x = hexX(x);
+			
+		}
+		peekView.drawGold(x,y, i);
 	}
 
 

@@ -145,5 +145,9 @@ public class GoldField {
     public void setNumberOfSides(int numberOfSides){
     	this.numberOfSides = numberOfSides;
     }
+    
+    public int getNumberOfSides(){
+    	return numberOfSides;
+    }
 
 }

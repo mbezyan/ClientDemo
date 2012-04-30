@@ -20,6 +20,7 @@ public class TestPeek {
 		String map = "...\n"+
 		 			 ".w.\n"+
 		 			 "...\n";
+		
 
 		Peek peek = peekFrom(map);
 		PeekViewStub peekView  = new PeekViewStub();

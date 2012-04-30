@@ -40,7 +40,7 @@ public class FieldView extends JPanel {
 	}
 
 	private FieldPeek createFieldPeek(Digger digger) {
-		return new FieldPeek(digger, Math.round(getWidth()/(33.5F)), Math.round(getHeight()/38.5F));
+		return new FieldPeek(digger, Math.round(getWidth()/(32F)), Math.round(getHeight()/32F));
 	}
 	
 	
@@ -52,8 +52,20 @@ public class FieldView extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
-		fieldPeek.getPeek().drawTo(new GraphicsPeekView(g, this));
+		//if(fieldPeek.sidesChanged()){
+			//fieldPeek.changeSides();
+		
+			if(fieldPeek.getSidesOfTiles() == 4){
+				
+				GraphicsPeekView.changeTileSetBasedOnSides(4);
+			}
+			else if(fieldPeek.getSidesOfTiles() == 6){
+				GraphicsPeekView.changeTileSetBasedOnSides(6);
+			}
+		//} 
+			super.paint(g);
+			fieldPeek.getPeek().drawTo(new GraphicsPeekView(g, this,fieldPeek.getSidesOfTiles()));
+		
 	}
 
    

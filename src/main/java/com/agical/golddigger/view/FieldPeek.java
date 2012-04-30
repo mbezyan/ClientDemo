@@ -11,13 +11,14 @@ public class FieldPeek {
 	private final int width;
 	private final int height;
 	private Rectangle peekBounds;
-
+	private int sidesOfTiles;
 
 	public FieldPeek(Digger digger, int width, int height) {
 		this.digger = digger;
 		this.width = width;
 		this.height = height;
 		peekBounds = new Rectangle(0, 0, width, height);
+		sidesOfTiles = digger.getGoldField().getNumberOfSides();
 	}
 
 	public Peek getPeek() {
@@ -42,8 +43,7 @@ public class FieldPeek {
 				}
 			}
 		}
-		
-		return new Peek(result, new Position(position.getLatitude()-deltaY, position.getLongitude()-deltaX), bounds);
+		return new Peek(result, new Position(position.getLatitude()-deltaY, position.getLongitude()-deltaX), bounds, sidesOfTiles);
 	}
 
 	private Rectangle createBounds(Position position, int fieldWith,
@@ -64,6 +64,19 @@ public class FieldPeek {
 		int deltaX = max - min;
 		if (deltaX < desiredSize) min = Math.max(min - (desiredSize-deltaX), 0);
 		return min;
+	}
+	
+	public int getSidesOfTiles(){
+		return sidesOfTiles;
+	}
+	
+	public boolean sidesChanged(){
+		return this.digger.getGoldField().getNumberOfSides() != sidesOfTiles;
+	}
+
+	public void changeSides() {
+		sidesOfTiles = digger.getGoldField().getNumberOfSides();
+		
 	}
 
 }

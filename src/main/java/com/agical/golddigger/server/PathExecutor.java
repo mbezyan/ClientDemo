@@ -52,6 +52,7 @@ public class PathExecutor {
         String secretName = splitPath[1];
         String action = splitPath[2];
         Digger digger = diggers.getDigger(secretName);
+        int numberOfSides = digger.getGoldField().getNumberOfSides();
         try {
             if (action.equals("view")) {
                 writer.write(digger.getView());
@@ -87,37 +88,40 @@ public class PathExecutor {
                 String direction = splitPath[3].toLowerCase();
                 String ok = "OK\n";
                 String failed = "FAILED\n";
-                if (direction.equals("north")) {
+                if (direction.equals("north") && numberOfSides != 3) {
                     writer.write(digger.move(Position.NORTH).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("east")) {
+                else if (direction.equals("east") && numberOfSides == 4) {
                     writer.write(digger.move(Position.EAST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("west")) {
+                else if (direction.equals("west") && numberOfSides == 4) {
                     writer.write(digger.move(Position.WEST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("south")) {
+                else if (direction.equals("south")&& numberOfSides != 3) {
                     writer.write(digger.move(Position.SOUTH).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("north_east")) {
+                else if (direction.equals("north_east")&& numberOfSides != 4) {
                     writer.write(digger.move(Position.NORTH_EAST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("south_east")) {
+                else if (direction.equals("south_east")&& numberOfSides != 4) {
                     writer.write(digger.move(Position.SOUTH_EAST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("north_west")) {
+                else if (direction.equals("north_west")&& numberOfSides != 4) {
                     writer.write(digger.move(Position.NORTH_WEST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                if (direction.equals("south_west")) {
+                else if (direction.equals("south_west")&& numberOfSides != 4) {
                     writer.write(digger.move(Position.SOUTH_WEST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
+                }
+                else{
+                	writer.write("Cannot Move in that direction");
                 }
             }
         } catch (Exception e) {
