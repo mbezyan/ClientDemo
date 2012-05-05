@@ -15,7 +15,7 @@ public class Peek {
 	private final Position position;
 	private final Rectangle bounds;
 	final static double hexR = 21.0;
-	private int numberOfSides = 6;
+	private int numberOfSides = 4;
 	final static double hexH = Math.sqrt(3.0)*hexR/2.0;	
 	
 	public static int hexX (double x)
