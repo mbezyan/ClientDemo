@@ -26,6 +26,10 @@ public class GoldField {
     public GoldField(int maxLatitude, int maxLongitude) {
         this(new EmptyFieldCreator(maxLatitude, maxLongitude));
     }
+    public GoldField(int maxLatitude, int maxLongitude,int numberOfSides) {
+        this(new EmptyFieldCreator(maxLatitude, maxLongitude));
+        this.numberOfSides = numberOfSides;
+    }
     @Override
     public String toString() {
         return Square.getField(squares);
@@ -34,6 +38,14 @@ public class GoldField {
         squares = fieldCreator.createField();
         maxLatitude = fieldCreator.getMaxLatitude();
         maxLongitude = fieldCreator.getMaxLongitude();
+    }
+    
+    
+    public GoldField(FieldCreator fieldCreator, int numberOfSides) {
+        squares = fieldCreator.createField();
+        maxLatitude = fieldCreator.getMaxLatitude();
+        maxLongitude = fieldCreator.getMaxLongitude();
+        this.numberOfSides = numberOfSides;
     }
 
     public int getMaxLatitude() {
@@ -142,9 +154,6 @@ public class GoldField {
         return false;
     }
     
-    public void setNumberOfSides(int numberOfSides){
-    	this.numberOfSides = numberOfSides;
-    }
     
     public int getNumberOfSides(){
     	return numberOfSides;

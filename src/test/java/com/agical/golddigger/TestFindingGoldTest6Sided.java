@@ -38,8 +38,7 @@ public class TestFindingGoldTest6Sided {
     @Before
     public void before() throws Exception {
         fieldCreator = new FieldCreatorImplementation();
-        goldField = new GoldField(fieldCreator);
-        goldField.setNumberOfSides(6);
+        goldField = new GoldField(fieldCreator,6);
     
     }
     
@@ -61,7 +60,6 @@ public class TestFindingGoldTest6Sided {
     public void diggerCannotDropMoreThanNineInOneSquare() throws Exception {
        digger = new Digger("Diggers name", "secretName");
        digger.newGame(goldField);
-       System.out.println(digger.getView());
        digger.move(Position.NORTH_EAST);
        System.out.println(digger.getView());
        digger.grab();
