@@ -52,17 +52,15 @@ public class FieldView extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
-		//if(fieldPeek.sidesChanged()){
-			//fieldPeek.changeSides();
-		
-			if(fieldPeek.getSidesOfTiles() == 4){
-				
+		//Changs the tile set depending on the numberOfSides for the tiles
+		//Might need a more efficient algorithm to do this if loading becomes too slow
+		//i.e only updates the tile set once/on changes.
+			if(fieldPeek.getSidesOfTiles() == 4){				
 				GraphicsPeekView.changeTileSetBasedOnSides(4);
 			}
 			else if(fieldPeek.getSidesOfTiles() == 6){
 				GraphicsPeekView.changeTileSetBasedOnSides(6);
 			}
-		//} 
 			super.paint(g);
 			fieldPeek.getPeek().drawTo(new GraphicsPeekView(g, this,fieldPeek.getSidesOfTiles()));
 		

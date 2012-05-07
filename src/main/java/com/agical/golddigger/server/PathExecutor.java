@@ -88,7 +88,7 @@ public class PathExecutor {
                 String direction = splitPath[3].toLowerCase();
                 String ok = "OK\n";
                 String failed = "FAILED\n";
-                if (direction.equals("north") && numberOfSides != 3) {
+                if (direction.equals("north")) {
                     writer.write(digger.move(Position.NORTH).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
@@ -100,7 +100,7 @@ public class PathExecutor {
                     writer.write(digger.move(Position.WEST).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }
-                else if (direction.equals("south")&& numberOfSides != 3) {
+                else if (direction.equals("south")) {
                     writer.write(digger.move(Position.SOUTH).map(Functions.<Position, String> constantly(ok),
                             Functions.<String> constantly(failed)));
                 }

@@ -61,7 +61,6 @@ public class TestFindingGoldTest6Sided {
        digger = new Digger("Diggers name", "secretName");
        digger.newGame(goldField);
        digger.move(Position.NORTH_EAST);
-       System.out.println(digger.getView());
        digger.grab();
        assertEquals(1, digger.getCarriedGold());
        assertEquals(".",goldField.getSquare(digger.getPosition()).getStringRepresentation());

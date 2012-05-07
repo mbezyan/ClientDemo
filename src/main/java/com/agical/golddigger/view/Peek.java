@@ -31,12 +31,8 @@ public class Peek {
 			}
 			else
 			{
-				return (int) Math.round((2.0*y) * hexH + ((x+1) % 2) * hexH);
-				
-			}
-		
-		
-			
+				return (int) Math.round((2.0*y) * hexH + ((x+1) % 2) * hexH);				
+			}			
 	}
 	
 	public Peek(Square[][] piece, Position position, Rectangle bounds) {
