@@ -1,13 +1,17 @@
 /**
- * 
+ * Modified by U4845943
  */
 package com.agical.golddigger.model;
 
 import com.agical.jambda.Option;
 
 public abstract class Square {
-	
+
+	// This is the move cost, higher numbers mean longer delays when a digger
+	// moves onto this square. Must be 0 or higher, didn't bother with Positive
+	// int, it is handled in setCost.
 	private int moveCost = 0;
+
 	public static String getField(Square[][] createField) {
 		String result = "";
 		for (Square[] squares : createField) {
@@ -77,12 +81,14 @@ public abstract class Square {
 	public boolean isEmpty() {
 		return true;
 	}
-	
-	public void setCost(int newCost){
-		moveCost = newCost;
+
+	public void setCost(int newCost) {
+		if (newCost >= 0) {
+			moveCost = newCost;
+		}
 	}
-	
-	public int getCost(){
+
+	public int getCost() {
 		return moveCost;
 	}
 }

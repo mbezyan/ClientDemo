@@ -137,6 +137,7 @@ public class Digger {
             setPosition(newPosition);
             update();
             
+            //Move cost delay
 			try {
 				Thread.sleep((long) (delayFactor*this.goldField.getSquare(position).getCost()));
 			} catch (InterruptedException e) {
