@@ -17,7 +17,7 @@ public class GoldField {
 
     private int maxLongitude;
     
-    private int numberOfSides = 4;
+    private int numberOfSides = 6;
     
     public void setGolddiggerNotifier(GolddiggerNotifier golddiggerNotifier) {
         this.golddiggerNotifier = golddiggerNotifier;
